@@ -3,17 +3,14 @@ const nextConfig = {
   eslint: {
     ignoreDuringBuilds: false,
   },
-  typescript: {
-    ignoreBuildErrors: false,
+  experimental: {
+    serverActions: {
+      allowedOrigins: ["localhost:3000", "*.vercel.app"],
+    },
   },
-  serverExternalPackages: ['@supabase/supabase-js'],
   images: {
-    unoptimized: true,
-  },
-  compiler: {
-    removeConsole: process.env.NODE_ENV === 'production' ? {
-      exclude: ['error'],
-    } : false,
+    domains: [],
+    unoptimized: false,
   },
 };
 
