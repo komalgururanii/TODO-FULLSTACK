@@ -18,6 +18,11 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Only run auth logic if supabase client is available
+    if (!supabase) {
+      setLoading(false);
+      return;
+    }
     // Get initial session
     const getSession = async () => {
       const {
@@ -41,6 +46,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const signUp = async (email, password) => {
+    if (!supabase) return { data: null, error: { message: 'Supabase not configured' } };
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -49,6 +55,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const signIn = async (email, password) => {
+    if (!supabase) return { data: null, error: { message: 'Supabase not configured' } };
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -57,6 +64,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const signOut = async () => {
+    if (!supabase) return { error: { message: 'Supabase not configured' } };
     const { error } = await supabase.auth.signOut();
     return { error };
   };
