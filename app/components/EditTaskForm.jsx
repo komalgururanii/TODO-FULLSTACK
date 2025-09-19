@@ -28,12 +28,14 @@ export default function EditTaskForm({ task, onTaskUpdated }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [dueDate, setDueDate] = useState("");
+  const [priority, setPriority] = useState("medium");
 
   useEffect(() => {
     if (task) {
       setTitle(task.title || "");
       setDescription(task.description || "");
       setDueDate(task.due_date ? task.due_date.slice(0, 10) : ""); // Format for input date yyyy-MM-dd
+      setPriority(task.priority || "medium");
     }
   }, [task]);
 
@@ -45,7 +47,7 @@ export default function EditTaskForm({ task, onTaskUpdated }) {
 
     const { error } = await supabase
       .from("tasks")
-      .update({ title, description, due_date: dueDate || null })
+      .update({ title, description, due_date: dueDate || null, priority })
       .eq("id", task.id);
 
     if (error) {
@@ -96,6 +98,19 @@ export default function EditTaskForm({ task, onTaskUpdated }) {
               value={dueDate}
               onChange={(e) => setDueDate(e.target.value)}
             />
+          </div>
+          <div>
+            <Label htmlFor="edit-priority">Priority</Label>
+            <Select value={priority} onValueChange={setPriority}>
+              <SelectTrigger className="mt-1">
+                <SelectValue placeholder="Select priority" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="low">⬇️ Low</SelectItem>
+                <SelectItem value="medium">➖ Medium</SelectItem>
+                <SelectItem value="high">⬆️ High</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
           <div className="flex justify-end space-x-2">
             <Button variant="outline" onClick={() => setOpen(false)}>
