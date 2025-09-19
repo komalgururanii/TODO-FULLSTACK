@@ -38,15 +38,31 @@ export const AuthProvider = ({ children }) => {
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (event, session) => {
+      console.log("Auth state change:", event, session?.user?.email);
+
       setUser(session?.user ?? null);
       setLoading(false);
+
+      // Handle specific auth events
+      if (event === "SIGNED_OUT") {
+        // Clear any cached data
+        if (typeof window !== "undefined") {
+          localStorage.clear();
+          sessionStorage.clear();
+        }
+      } else if (event === "TOKEN_REFRESHED") {
+        console.log("Token refreshed successfully");
+      } else if (event === "USER_UPDATED") {
+        console.log("User updated");
+      }
     });
 
     return () => subscription.unsubscribe();
   }, []);
 
   const signUp = async (email, password) => {
-    if (!supabase) return { data: null, error: { message: 'Supabase not configured' } };
+    if (!supabase)
+      return { data: null, error: { message: "Supabase not configured" } };
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -55,7 +71,8 @@ export const AuthProvider = ({ children }) => {
   };
 
   const signIn = async (email, password) => {
-    if (!supabase) return { data: null, error: { message: 'Supabase not configured' } };
+    if (!supabase)
+      return { data: null, error: { message: "Supabase not configured" } };
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -64,9 +81,65 @@ export const AuthProvider = ({ children }) => {
   };
 
   const signOut = async () => {
-    if (!supabase) return { error: { message: 'Supabase not configured' } };
-    const { error } = await supabase.auth.signOut();
-    return { error };
+    if (!supabase) return { error: { message: "Supabase not configured" } };
+
+    try {
+      // Clear user state immediately
+      setUser(null);
+
+      // Attempt to sign out from Supabase
+      const { error } = await supabase.auth.signOut();
+
+      // Clear local storage regardless of API response
+      if (typeof window !== "undefined") {
+        localStorage.clear();
+        sessionStorage.clear();
+      }
+
+      if (error) {
+        console.error("Supabase signOut error:", error);
+        // Even if the API call fails, we've cleared local state
+        // This handles cases where the session is already expired
+        if (
+          error.message.includes("403") ||
+          error.message.includes("unauthorized")
+        ) {
+          return { error: null }; // Treat as successful local logout
+        }
+        return { error };
+      }
+
+      return { error: null };
+    } catch (err) {
+      console.error("Unexpected signOut error:", err);
+
+      // Clear local storage even on unexpected errors
+      if (typeof window !== "undefined") {
+        localStorage.clear();
+        sessionStorage.clear();
+      }
+
+      return { error: { message: "Unexpected error during sign out" } };
+    }
+  };
+
+  // Add a method to refresh session
+  const refreshSession = async () => {
+    if (!supabase) return { error: { message: "Supabase not configured" } };
+
+    try {
+      const { data, error } = await supabase.auth.refreshSession();
+      if (error) {
+        console.error("Session refresh error:", error);
+        // If refresh fails, sign out the user
+        setUser(null);
+      }
+      return { data, error };
+    } catch (err) {
+      console.error("Unexpected session refresh error:", err);
+      setUser(null);
+      return { error: { message: "Session refresh failed" } };
+    }
   };
 
   const value = {
@@ -75,6 +148,7 @@ export const AuthProvider = ({ children }) => {
     signUp,
     signIn,
     signOut,
+    refreshSession,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

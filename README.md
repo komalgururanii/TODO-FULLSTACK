@@ -10,12 +10,14 @@ A modern, feature-rich Todo application built with Next.js 15, React 19, Supabas
 ## ✨ Features
 
 ### 🔐 Authentication System
+
 - **Email/Password Authentication** via Supabase Auth
 - **Secure User Sessions** with automatic token management
 - **Protected Routes** for authenticated users only
 - **User Profile Management** with email display
 
 ### 📋 Task Management
+
 - **Create, Read, Update, Delete** tasks with full CRUD operations
 - **Task Categories** with color-coded badges (Work, Personal, Health, Learning, General)
 - **Priority Levels** (High, Medium, Low) with visual indicators
@@ -25,6 +27,7 @@ A modern, feature-rich Todo application built with Next.js 15, React 19, Supabas
 - **Tag System** for better organization
 
 ### 🤝 Team Collaboration
+
 - **Workspace Creation** for team projects
 - **Workspace Management** with member invitations
 - **Real-time Collaboration** (ready for Supabase real-time)
@@ -33,6 +36,7 @@ A modern, feature-rich Todo application built with Next.js 15, React 19, Supabas
 - **Workspace Deletion** with confirmation dialogs
 
 ### 📊 Analytics & Progress Tracking
+
 - **Progress Dashboard** with visual charts
 - **Completion Statistics** and percentage tracking
 - **Priority Distribution** analytics
@@ -41,15 +45,17 @@ A modern, feature-rich Todo application built with Next.js 15, React 19, Supabas
 - **Real-time Progress Updates**
 
 ### 🔍 Advanced Filtering & Search
+
 - **Text Search** across task titles and descriptions
 - **Category Filtering** with multi-select options
-- **Priority-based Filtering** 
+- **Priority-based Filtering**
 - **Status Filtering** (All, Completed, Pending)
 - **Date Range Filtering** for due dates
 - **Sort Options** (Created Date, Due Date, Priority, Title)
 - **Combined Filters** for precise task discovery
 
 ### 🎨 Modern UI/UX Design
+
 - **Glassmorphism Effects** with backdrop blur
 - **Animated Gradient Backgrounds** with smooth color transitions
 - **Interactive Hover Effects** with smooth animations
@@ -62,6 +68,7 @@ A modern, feature-rich Todo application built with Next.js 15, React 19, Supabas
 ## 🛠️ Tech Stack
 
 ### Frontend
+
 - **Next.js 15.3.2** - React framework with App Router
 - **React 19.0.0** - UI library with latest features
 - **Tailwind CSS 4** - Utility-first CSS framework
@@ -72,6 +79,7 @@ A modern, feature-rich Todo application built with Next.js 15, React 19, Supabas
 - **Sonner** - Toast notifications
 
 ### Backend & Database
+
 - **Supabase** - Backend-as-a-Service
   - PostgreSQL database
   - Authentication system
@@ -79,6 +87,7 @@ A modern, feature-rich Todo application built with Next.js 15, React 19, Supabas
   - Row Level Security policies
 
 ### Development Tools
+
 - **ESLint** - Code linting
 - **Class Variance Authority** - CSS utility management
 - **clsx & tailwind-merge** - Conditional styling
@@ -87,7 +96,9 @@ A modern, feature-rich Todo application built with Next.js 15, React 19, Supabas
 ## 🗃️ Database Schema
 
 ### Tables
+
 1. **`tasks`** - Main task storage
+
    - `id` (uuid, primary key)
    - `title` (text, required)
    - `description` (text, optional)
@@ -102,6 +113,7 @@ A modern, feature-rich Todo application built with Next.js 15, React 19, Supabas
    - `updated_at` (timestamp)
 
 2. **`workspaces`** - Team workspace management
+
    - `id` (uuid, primary key)
    - `name` (text, required)
    - `description` (text, optional)
@@ -166,25 +178,29 @@ todo-app/
 ## 🚀 Getting Started
 
 ### Prerequisites
-- Node.js 18+ 
+
+- Node.js 18+
 - npm or yarn
 - Supabase account
 
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/komalgururanii/TODO-FULLSTACK.git
    cd TODO-FULLSTACK
    ```
 
 2. **Install dependencies**
+
    ```bash
    npm install
    ```
 
 3. **Set up environment variables**
    Create a `.env.local` file in the root directory:
+
    ```env
    NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
    NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
@@ -192,6 +208,7 @@ todo-app/
 
 4. **Set up Supabase Database**
    Run the SQL scripts in your Supabase SQL editor:
+
    ```sql
    -- Create tasks table
    CREATE TABLE tasks (
@@ -228,6 +245,7 @@ todo-app/
    ```
 
 5. **Run the development server**
+
    ```bash
    npm run dev
    ```
@@ -238,18 +256,21 @@ todo-app/
 ## 📖 Usage Guide
 
 ### Getting Started
+
 1. **Sign Up/Login** - Create an account or login with existing credentials
 2. **Create Your First Task** - Click the "Add New Task" button
 3. **Organize with Categories** - Use categories and priorities to organize tasks
 4. **Track Progress** - Monitor your productivity with the dashboard
 
 ### Team Collaboration
+
 1. **Create Workspace** - Click on workspace selector and create new workspace
 2. **Invite Members** - Share workspace with team members (feature ready)
 3. **Manage Tasks** - Collaborate on tasks within workspaces
 4. **Switch Contexts** - Toggle between personal and workspace tasks
 
 ### Advanced Features
+
 - **Search & Filter** - Use the sidebar to find specific tasks
 - **Due Date Management** - Set deadlines and track overdue items
 - **Progress Analytics** - View completion statistics and trends
@@ -258,6 +279,7 @@ todo-app/
 ## 🎨 UI Features
 
 ### Animations & Effects
+
 - **Gradient Backgrounds** - Smooth color transitions
 - **Glassmorphism Cards** - Modern frosted glass effect
 - **Hover Animations** - Interactive element responses
@@ -265,6 +287,7 @@ todo-app/
 - **Priority Glows** - Visual priority indicators
 
 ### Responsive Design
+
 - **Mobile First** - Optimized for all screen sizes
 - **Flexible Layouts** - Adapts to different viewports
 - **Touch Friendly** - Mobile gesture support
@@ -272,14 +295,18 @@ todo-app/
 ## 🔧 Configuration
 
 ### Tailwind CSS
+
 The project uses Tailwind CSS 4 with custom configurations:
+
 - Custom color palette
 - Animation utilities
 - Responsive breakpoints
 - Dark mode support
 
 ### ESLint
+
 Code quality maintained with:
+
 - Next.js recommended rules
 - React best practices
 - Custom rule configurations
@@ -287,12 +314,14 @@ Code quality maintained with:
 ## 🚀 Deployment
 
 ### Vercel (Recommended)
+
 ```bash
 npm run build
 npx vercel --prod
 ```
 
 ### Other Platforms
+
 ```bash
 npm run build
 npm run start
@@ -313,6 +342,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 👨‍💻 Author
 
 **Komal Guruani**
+
 - GitHub: [@komalgururanii](https://github.com/komalgururanii)
 - Project: [TODO-FULLSTACK](https://github.com/komalgururanii/TODO-FULLSTACK)
 

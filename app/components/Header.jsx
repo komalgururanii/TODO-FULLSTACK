@@ -11,11 +11,43 @@ export default function Header() {
   const { user, signOut } = useAuth();
 
   const handleSignOut = async () => {
-    const { error } = await signOut();
-    if (error) {
-      toast.error("Error signing out");
-    } else {
-      toast.success("Signed out successfully");
+    try {
+      // Show loading state
+      toast.loading("Signing out...", { id: "signout" });
+
+      const { error } = await signOut();
+
+      // Dismiss loading toast
+      toast.dismiss("signout");
+
+      if (error) {
+        console.error("Sign out error:", error);
+        toast.error(`Error signing out: ${error.message}`);
+
+        // If there's an error but we still want to force logout locally
+        if (
+          error.message.includes("403") ||
+          error.message.includes("unauthorized")
+        ) {
+          toast.success("Signed out locally due to session expiry");
+          window.location.reload();
+        }
+      } else {
+        toast.success("Signed out successfully");
+        // Small delay to show success message before reload
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      }
+    } catch (err) {
+      toast.dismiss("signout");
+      console.error("Unexpected sign out error:", err);
+      toast.error("Unexpected error occurred during sign out");
+
+      // Force logout locally if there's a network error
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
     }
   };
 
